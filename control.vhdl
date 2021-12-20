@@ -20,14 +20,14 @@ entity control_logic is
 		RB: out STD_LOGIC_VECTOR(4 downto 0);
 		RT: out STD_LOGIC_VECTOR(4 downto 0);
 		imm: out STD_LOGIC_VECTOR(15 downto 0);
-		MA: out STD_LOGIC_VECTOR(9 downto 0);
+		MA: out STD_LOGIC_VECTOR(15 downto 0);
 		MIA: out STD_LOGIC_VECTOR(7 downto 0));
 	end control_logic;
 
 
 
 architecture arch of control_logic is
-
+signal offset: STD_LOGIC_VECTOR(8 downto 0);
 begin
 
 s1 <= '0' when Instr(31 downto 26) = "000000" or Instr(31 downto 26) = "000100" or Instr(31 downto 26) = "010001" or Instr(31 downto 26) = "010010" or  Instr(31 downto 26) = "010011" else
@@ -69,7 +69,7 @@ X <= Instr(13 downto 10);
 
 imm <= Instr(25 downto 10);
 
-MA <= Instr(19 downto 10);
+MA <= Instr(25 downto 10);
 
 offset <= Instr(18 downto 10);
 

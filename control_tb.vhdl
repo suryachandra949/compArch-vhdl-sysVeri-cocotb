@@ -26,14 +26,15 @@ signal RA: STD_LOGIC_VECTOR(4 downto 0);
 signal RB: STD_LOGIC_VECTOR(4 downto 0);
 signal RT: STD_LOGIC_VECTOR(4 downto 0);
 signal imm: STD_LOGIC_VECTOR(15 downto 0);
-signal MA: STD_LOGIC_VECTOR(9 downto 0);
+signal MA: STD_LOGIC_VECTOR(15 downto 0);
 signal MIA: STD_LOGIC_VECTOR(7 downto 0);
 signal Mem_load: STD_LOGIC_VECTOR(data_width -1 downto 0);
 signal MDA: STD_LOGIC_VECTOR(data_width -1 downto 0);
 
+constant clk_period : time := 10 ns;  
 begin
 
-control: entity work.control
+control: entity work.control_logic
 		 Port map(CLK => CLK,
 		 		  RESET => RESET,
 		 		  Instr => Instr,
@@ -56,7 +57,7 @@ datapath: entity work.datapath
     generic map(data_width => data_width,
                 num_register => num_register)
     Port map(CLK => CLK,
-            RST => RST,
+            RST => RESET,
             RA => RA,
             RB => RB,
             Wr_ENABLE => WEN,
@@ -80,5 +81,49 @@ clk_process: process
                 wait for clk_period/2;
             end process;
 
+TEST: process
+type test_vector is record
+	Instr: STD_LOGIC_VECTOR(31 downto 0);
+	Mem_load: STD_LOGIC_VECTOR(data_width -1 downto 0);
+    MDA: STD_LOGIC_VECTOR(data_width -1 downto 0);
+end record;
 
-end control_tb;
+type test_vector_array is array
+		(natural range <>) of test_vector;
+constant test_vectors: test_vector_array :=
+		((X"20000001",X"0000",X"0001"),
+		  (X"18001402",X"0000",X"0005"),
+		  (X"60000C23",X"0000",X"0008"),
+		  (X"98000062",X"0000",X"0008"),
+		  (X"847C7405",X"0007",X"1f1f"));
+
+
+begin
+	wait for 100 ns;
+	wait until falling_edge(clk);
+	RESET <= '0';
+	wait for clk_period;
+	RESET <= '1';
+	wait for clk_period * 7/2;
+	RESET <= '0';
+	wait for clk_period * 7/2;
+
+	for i in test_vectors'range loop
+		MEM_LOAD <= test_vectors(i).MEM_LOAD;
+		Instr <= test_vectors(i).Instr;
+
+		-- wait for results
+		wait for 10 ns;
+		-- check for outputs
+		assert MDA= test_vectors(i).MDA
+		report "MDA mismatch"
+		severity error;
+
+
+	end loop;
+	report "end of test"
+	severity note;
+	wait;
+end process;
+
+end arch;
