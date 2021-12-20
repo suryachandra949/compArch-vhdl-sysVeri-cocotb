@@ -1,0 +1,4 @@
+mkdir work
+ghdl -i --workdir=work *.vhdl
+ghdl -m --workdir=work entity_name
+ghdl -r --workdir=work entity_name
