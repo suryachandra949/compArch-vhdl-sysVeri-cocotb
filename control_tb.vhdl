@@ -95,7 +95,7 @@ constant test_vectors: test_vector_array :=
 		  (X"18001402",X"0000",X"0005"),
 		  (X"60000C23",X"0000",X"0008"),
 		  (X"98000062",X"0000",X"0008"),
-		  (X"847C7405",X"0007",X"1f1f"));
+		  (X"947C7C05",X"0007",X"1f1f"));
 
 
 begin
@@ -104,9 +104,9 @@ begin
 	RESET <= '0';
 	wait for clk_period;
 	RESET <= '1';
-	wait for clk_period * 7/2;
+	wait for clk_period * 7/3;
 	RESET <= '0';
-	wait for clk_period * 7/2;
+--	wait for clk_period * 7/2;
 
 	for i in test_vectors'range loop
 		MEM_LOAD <= test_vectors(i).MEM_LOAD;

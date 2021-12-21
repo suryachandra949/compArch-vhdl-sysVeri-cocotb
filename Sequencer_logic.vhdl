@@ -41,6 +41,7 @@ CLB <= '1' when Branch_instr = "110000" and FLAGS_OUT(0) = '1' else
 
 Sequencer_out <= PC + unsigned(offset(7 downto 0)) when CLB ='1' and offset(8) = '0' else
 				PC - unsigned(offset(7 downto 0)) when CLB='0' and offset(8) = '1' else
+				PC when reset='1' else
 				PC + 1;
 
 MIA <= STD_LOGIC_VECTOR(Sequencer_out);

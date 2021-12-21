@@ -45,7 +45,7 @@ OEN <= '1' when Instr(31 downto 26) = "100101" or Instr(31 downto 26) = "100110"
 WEN <= '0' when Instr(31 downto 26)="000000" or Instr(31 downto 26) = "100101" or Instr(31 downto 26) = "100110" or Instr(31 downto 26) = "100111" or Instr(31 downto 30)="11" else
 		'1';
 
-OPCODE <= "1010" when Instr(31 downto 26) ="000100" or Instr(31 downto 26) ="000110" or Instr(31 downto 26) ="001000" or Instr(31 downto 26)="100011" or Instr(31 downto 26)="100111" else
+OPCODE <= "1010" when Instr(31 downto 26) ="000100" or Instr(31 downto 26) ="000110" or Instr(31 downto 26)="100011" or Instr(31 downto 26)="100111" else
 		  "1011" when Instr(31 downto 26) ="000101" or Instr(31 downto 26) ="000111" or Instr(31 downto 26) ="001001" else
 		  "0111" when Instr(31 downto 26) ="010000" else
 		  "0100" when Instr(31 downto 26) ="010001" or Instr(31 downto 26)="010100" else
@@ -55,6 +55,8 @@ OPCODE <= "1010" when Instr(31 downto 26) ="000100" or Instr(31 downto 26) ="000
 		  "1101" when Instr(31 downto 26) ="011001" else
 		  "1110" when Instr(31 downto 26) ="011010" else
 		  "1111" when Instr(31 downto 26) ="011011" else
+		  "1000" when Instr(31 downto 26) ="001000" else
+		  "1001" when Instr(31 downto 26) ="001001" else
 		  "0000";
 
 
