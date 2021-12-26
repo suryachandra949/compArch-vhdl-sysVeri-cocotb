@@ -22,7 +22,9 @@ entity datapath is
         MA: in STD_LOGIC_VECTOR(data_width -1 downto 0);
         Mem_load: in STD_LOGIC_VECTOR(data_width -1 downto 0);
         MDA: out STD_LOGIC_VECTOR(data_width -1 downto 0);
-		FLAGS_OUT : out STD_LOGIC_VECTOR(0 to 7));
+        OEN: in STD_LOGIC;
+		FLAGS_OUT : out STD_LOGIC_VECTOR(0 to 7);
+		MEMDATA_wr: out STD_LOGIC_VECTOR(data_width-1 downto 0));
         
 end datapath;
 
@@ -62,6 +64,8 @@ ALU: entity work.ALU
 
 MDA <= MA when s3 = '1' else
 		ALU_OUT;
+
+MEMDATA_wr <= REG_READ2;
 
 REG_wr_Data <= ALU_OUT when s4 = '0' else
 			   Mem_load; -- Need to change (place holder for now)

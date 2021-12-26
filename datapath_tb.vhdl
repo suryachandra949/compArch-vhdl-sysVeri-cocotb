@@ -25,6 +25,7 @@ signal s3: STD_LOGIC;
 signal MA: STD_LOGIC_VECTOR(data_width -1 downto 0);
 signal Mem_load: STD_LOGIC_VECTOR(data_width -1 downto 0);
 signal MDA: STD_LOGIC_VECTOR(data_width -1 downto 0);
+signal OEN: STD_LOGIC;
 signal FLAGS_OUT : STD_LOGIC_VECTOR(0 to 7);
 
 constant clk_period : time := 10 ns;  
@@ -47,6 +48,7 @@ UUT: entity work.datapath
             MA => MA,
             Mem_load => Mem_load,
             MDA => MDA,
+            OEN => OEN,
             FLAGS_OUT => FLAGS_OUT);
 
 clk_process: process

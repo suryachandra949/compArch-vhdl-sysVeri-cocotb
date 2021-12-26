@@ -15,7 +15,7 @@ end entity Sequencer_logic;
 
 architecture arch of Sequencer_logic is
 signal PC: unsigned (7 downto 0);
-signal Sequencer_out: unsigned (7 downto 0);
+signal Sequencer_out: unsigned (8 downto 0);
 signal CLB: STD_LOGIC;
 begin
 
@@ -25,7 +25,7 @@ process(CLK)
 		if(RESET = '1') then
 			PC <= (others => '0');
 		else
-			PC <= Sequencer_out;
+			PC <= Sequencer_out(7 downto 0);
 		end if;
 	end if;
 end process;
@@ -39,10 +39,8 @@ CLB <= '1' when Branch_instr = "110000" and FLAGS_OUT(0) = '1' else
 	   '1' when Branch_instr = "110110" and FLAGS_OUT(6) = '1' else
 	   '0';
 
-Sequencer_out <= PC + unsigned(offset(7 downto 0)) when CLB ='1' and offset(8) = '0' else
-				PC - unsigned(offset(7 downto 0)) when CLB='0' and offset(8) = '1' else
-				PC when reset='1' else
-				PC + 1;
+Sequencer_out <= unsigned(signed(PC) + signed(offset)) when CLB ='1' else         -- check signed stuff and optimize logic
+				'0' & (PC + 1);
 
-MIA <= STD_LOGIC_VECTOR(Sequencer_out);
+MIA <= STD_LOGIC_VECTOR(Sequencer_out(7 downto 0));
 end architecture arch;

@@ -71,6 +71,7 @@ datapath: entity work.datapath
             MA => MA,
             Mem_load => Mem_load,
             MDA => MDA,
+            OEN => OEN,
             FLAGS_OUT => FLAGS_OUT);
 
 clk_process: process
