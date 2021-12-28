@@ -46,10 +46,15 @@ TEST: process
 	wait for clk_period * 7/3;
 	RESET <= '0';
 
-
+    wait for clk_period * 3;
 	PB <= '1';
-	wait for clk_period * 7/3;
+    wait for clk_period * 7/3;
 	PB <= '0';
+count1_to_20: for i in 1 to 20 loop
+             
+            wait for clk_period *3;
+            
+            end loop count1_to_20;   
 
 	wait;
 end process;

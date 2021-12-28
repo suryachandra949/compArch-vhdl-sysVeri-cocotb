@@ -26,21 +26,32 @@ signal WE: STD_LOGIC;
 signal DP_MEM_data_read: STD_LOGIC_VECTOR(31 downto 0);
 signal DP_MEM_data_write: STD_LOGIC_VECTOR(31 downto 0);
 signal LED_output: STD_LOGIC_VECTOR(15 downto 0);
-signal start: STD_LOGIC_VECTOR(15 downto 0);
+signal Mem_load_data: STD_LOGIC_VECTOR(15 downto 0);
+
+signal MSB_Mem_data_16 : STD_LOGIC_VECTOR(15 downto 0);
+signal LSB_Mem_data_16: STD_LOGIC_VECTOR(15 downto 0);
+signal PB_resize: STD_LOGIC_VECTOR(15 downto 0);
 begin
 	DP_Mem_inst_Add <= MIA(6 downto 0);
 
-	DP_Mem_data_Add <= '1'& MDA(5 downto 1) & '0';
+	DP_Mem_data_Add <= std_logic_vector(unsigned(MDA(7 downto 1))+ 64);
 
 	WE <= OEN;
 
-	Mem_load <= (0 => PB, others => '0') when MDA = X"01F0" else
-				DP_MEM_data_read(31 downto 16) when MDA(0) = '1' else
-				DP_MEM_data_read(15 downto 0) ;
+	PB_resize<= X"0001" when PB ='1' else
+                   (others=> '0');
 
+    
+				    
+	Mem_load <= PB_resize when (MDA = X"01F0") else
+                  DP_MEM_data_read (15 downto 0) when MDA(0) = '0' else
+                  DP_MEM_data_read (31 downto 16);
 
-	DP_MEM_data_write <= DP_MEM_data_read(31 downto 16) & MEMDATA_wr when MDA(0) ='0' else
-						 MEMDATA_wr & DP_MEM_data_read(15 downto 0);
+    MSB_Mem_data_16 <= DP_MEM_data_read(31 downto 16);
+    LSB_Mem_data_16 <= DP_MEM_data_read(15 downto 0);
+
+	DP_MEM_data_write <= MSB_Mem_data_16 & MEMDATA_wr when MDA(0) ='0' else
+						 MEMDATA_wr & LSB_Mem_data_16;
 
 
 DualPort_Mem: entity work.DP_Memory
@@ -55,19 +66,20 @@ DualPort_Mem: entity work.DP_Memory
 
 process(CLK)
 begin
-	if (RESET = '1') then
+	
+if (rising_edge(CLK)) then
+    if (RESET = '1') then
 		LED_output <= (others => '0');
 	else
-		if (rising_edge(CLK)) then
-			if(WE = '1' and MDA = X"01F8") then
-				LED_output <= MEMDATA_wr;
+		if(WE = '1' and MDA = X"01F8") then
+			LED_output <= MEMDATA_wr;
 				
-			end if;
 		end if;
 	end if;
+end if;
 
 end process;	
 
-
+LED <= LED_output(15 downto 8);
 	
 end arch;

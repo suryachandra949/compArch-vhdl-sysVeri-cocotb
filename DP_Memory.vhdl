@@ -17,7 +17,7 @@ type ram_type is array (0 to 127) of std_logic_vector(31 downto 0);
 signal my_ram: ram_type := (
 0 => X"00000000",
 1 => X"8407C00F",
-2 => X"C007FC00",
+2 => X"C007FDE0",
 3 => X"18007C1F",
 4 => X"10000001",
 5 => X"20000021",

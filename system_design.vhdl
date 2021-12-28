@@ -2,8 +2,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use work.DigEng.ALL;
 entity System_design is
-	generic(data_width: integer := 8;
-			num_register: integer := 8);
+	generic(data_width: integer := 16;
+			num_register: integer := 32);
 
 	port(CLK: in STD_LOGIC;
 		 RESET: in STD_LOGIC;
