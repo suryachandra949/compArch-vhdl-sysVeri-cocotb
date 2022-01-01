@@ -34,7 +34,7 @@ signal PB_resize: STD_LOGIC_VECTOR(15 downto 0);
 begin
 	DP_Mem_inst_Add <= MIA(6 downto 0);
 
-	DP_Mem_data_Add <= std_logic_vector(unsigned(MDA(7 downto 1))+ 64);
+	DP_Mem_data_Add <= STD_LOGIC_VECTOR(unsigned(MDA(7 downto 1 )) + 64);
 
 	WE <= OEN;
 

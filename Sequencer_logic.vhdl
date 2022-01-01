@@ -37,6 +37,7 @@ CLB <= '1' when Branch_instr = "110000" and FLAGS_OUT(0) = '1' else
 	   '1' when Branch_instr = "110100" and FLAGS_OUT(4) = '1' else
 	   '1' when Branch_instr = "110101" and FLAGS_OUT(5) = '1' else
 	   '1' when Branch_instr = "110110" and FLAGS_OUT(6) = '1' else
+	   '1' when Branch_instr = "110111" else
 	   '0';
 
 Sequencer_out <= unsigned(signed(PC) + signed(offset)) when CLB ='1' else         -- check signed stuff and optimize logic

@@ -43,7 +43,7 @@ end process;
 
 
 
-s1 <= '0' when Instr_reg(31 downto 26) = "000000" or Instr_reg(31 downto 26) = "000100" or Instr_reg(31 downto 26) = "010001" or Instr_reg(31 downto 26) = "010010" or  Instr_reg(31 downto 26) = "010011" else
+s1 <= '0' when Instr_reg(31 downto 26) = "000101" or Instr_reg(31 downto 26) = "000100" or Instr_reg(31 downto 26) = "010001" or Instr_reg(31 downto 26) = "010010" or  Instr_reg(31 downto 26) = "010011" else
 		'1';
 
 s3 <= '1' when Instr_reg(31 downto 26) = "100001" or Instr_reg(31 downto 26) = "100101" else
@@ -59,7 +59,7 @@ WEN <= '0' when Instr_reg(31 downto 26)="000000" or Instr_reg(31 downto 26) = "1
 		'1';
 
 OPCODE <= "1010" when Instr_reg(31 downto 26) ="000100" or Instr_reg(31 downto 26) ="000110" or Instr_reg(31 downto 26)="100011" or Instr_reg(31 downto 26)="100111" else
-		  "1011" when Instr_reg(31 downto 26) ="000101" or Instr_reg(31 downto 26) ="000111" or Instr_reg(31 downto 26) ="001001" else
+		  "1011" when Instr_reg(31 downto 26) ="000101" or Instr_reg(31 downto 26) ="000111" else
 		  "0111" when Instr_reg(31 downto 26) ="010000" else
 		  "0100" when Instr_reg(31 downto 26) ="010001" or Instr_reg(31 downto 26)="010100" else
 		  "0101" when Instr_reg(31 downto 26) ="010010" or Instr_reg(31 downto 26)="010101" else
@@ -75,7 +75,7 @@ OPCODE <= "1010" when Instr_reg(31 downto 26) ="000100" or Instr_reg(31 downto 2
 
 RA <= Instr_reg(9 downto 5);
 
-RB <= Instr_reg(14 downto 10) when Instr_reg(31 downto 26) = "000000" or Instr_reg(31 downto 26) = "000100" or Instr_reg(31 downto 26) = "010001" or Instr_reg(31 downto 26) = "010010" or  Instr_reg(31 downto 26) = "010011" else
+RB <= Instr_reg(14 downto 10) when Instr_reg(31 downto 26) = "000101" or Instr_reg(31 downto 26) = "000100" or Instr_reg(31 downto 26) = "010001" or Instr_reg(31 downto 26) = "010010" or  Instr_reg(31 downto 26) = "010011" else
 	  Instr_reg(4 downto 0);
 
 RT <= Instr_reg(4 downto 0);
